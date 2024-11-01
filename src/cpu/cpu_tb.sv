@@ -40,77 +40,78 @@ module cpu_tb;
         * populates some values in it */
 
         /* program instructions */
-        prog_addr=4'b0000;
+        prog_addr = 4'b0000;
         prog_data.opcode = OPCODE_MOVI;
         prog_data.operand.imm2.val = 2'b11;
         prog_data.operand.imm2.dst = R3;
         #5; prog_we=1; prog_clk=1; #5; prog_we=0; prog_clk=0;
 
-        prog_addr=4'b0001;
+        prog_addr = 4'b0001;
         prog_data.opcode = OPCODE_MOVI;
         prog_data.operand.imm2.val = 2'b11;
         prog_data.operand.imm2.dst = R2;
         #5; prog_we=1; prog_clk=1; #5; prog_we=0; prog_clk=0;
 
-        prog_addr=4'b0010;
+        prog_addr = 4'b0010;
         prog_data.opcode = OPCODE_LSLI;
         prog_data.operand.imm2.val = 2'd2;
         prog_data.operand.imm2.dst = R3;
         #5; prog_we=1; prog_clk=1; #5; prog_we=0; prog_clk=0;
 
-        prog_addr=4'b0011;
+        prog_addr = 4'b0011;
         prog_data.opcode = OPCODE_ADD;
         prog_data.operand.regs.src = R2;
         prog_data.operand.regs.dst = R3;
         #5; prog_we=1; prog_clk=1; #5; prog_we=0; prog_clk=0;
 
-        /* R3 = 4'b1111 */
-        /* set R0 to address from 4'b0000 to 4'b1111 */
-        /* write values from 4'b1111 to 4'b0000 to data mem */
-
-        prog_addr=4'b0100;
+        /* R3 = 4'b1111 (15), R3 contains loop count, max possible loop count
+         * is 15 in 4-bits so the loop runs only 15 times i.e. not 16
+         * times as expected
+         *
+         * set R0 to address from 4'b0000 to 4'b1111
+         * write values from 4'b1111 to 4'b0000 to data mem */
+        prog_addr = 4'b0100;
         prog_data.opcode = OPCODE_MOVI;
         prog_data.operand.imm2.val = 2'b00;
         prog_data.operand.imm2.dst = R0;
         #5; prog_we=1; prog_clk=1; #5; prog_we=0; prog_clk=0;
 
-        prog_addr=4'b0101;
+        prog_addr = 4'b0101;
         prog_data.opcode = OPCODE_ST;
-        prog_data.operand.regs.src = R0;
-        prog_data.operand.regs.dst = R3;
-        #5; prog_we=1; prog_clk=1; #5; prog_we=0; prog_clk=0;
-
-        prog_addr=4'b0110;
-        prog_data.opcode = OPCODE_SUBI;
-        prog_data.operand.imm2.val = 2'd1;
-        prog_data.operand.imm2.dst = R3;
+        prog_data.operand.regs.src = R3;
+        prog_data.operand.regs.dst = R0;
         #5; prog_we=1; prog_clk=1; #5; prog_we=0; prog_clk=0;
 
         /* increment address in R0 */
-        prog_addr=4'b0111;
+        prog_addr = 4'b0110;
         prog_data.opcode = OPCODE_ADDI;
         prog_data.operand.imm2.val = 2'd1;
         prog_data.operand.imm2.dst = R0;
         #5; prog_we=1; prog_clk=1; #5; prog_we=0; prog_clk=0;
 
-        prog_addr=4'b1000;
+        prog_addr = 4'b0111;
+        prog_data.opcode = OPCODE_SUBI;
+        prog_data.operand.imm2.val = 2'd1;
+        prog_data.operand.imm2.dst = R3;
+        #5; prog_we=1; prog_clk=1; #5; prog_we=0; prog_clk=0;
+
+        prog_addr = 4'b1000;
         prog_data.opcode = OPCODE_BNE;
         prog_data.operand.imm4 = 4'b0101;
         #5; prog_we=1; prog_clk=1; #5; prog_we=0; prog_clk=0;
 
-        prog_addr=4'b1001;
+        prog_addr = 4'b1001;
         prog_data.opcode = OPCODE_BEQ;
         prog_data.operand.imm4 = 4'b1001; /* get stuck here */
         #5; prog_we=1; prog_clk=1; #5; prog_we=0; prog_clk=0;
 
-        prog_enable = 0;
-        prog_data  = 0;
-        prog_addr = 0;
+        prog_enable=0; prog_data=0; prog_addr=0;
 
         #10; /* delay before releasing CPU from reset */
         cpu_reset = 0;
 
         #3000;
+
         $finish;
     end
 endmodule

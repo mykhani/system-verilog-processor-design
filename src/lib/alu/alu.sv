@@ -9,13 +9,13 @@ module alu (
 );
     always_comb begin
         case (operation)
-        ALU_ADD: result = op2 + op1;
-        ALU_SUB: result = op2 - op1;
-        ALU_AND: result = op2 & op1;
-        ALU_OR: result = op2 | op1;
-        ALU_XOR: result = op2 ^ op1;
-        ALU_LT: result = op2 < op1;
-        ALU_LSL: result = op2 << op1;
+        ALU_ADD: result = op1 + op2;
+        ALU_SUB: result = op1 - op2;
+        ALU_AND: result = op1 & op2;
+        ALU_OR: result = op1 | op2;
+        ALU_XOR: result = op1 ^ op2;
+        ALU_LT: result = op1 < op2;
+        ALU_LSL: result = op1 << op2;
         default: result = 0;
         endcase
     end

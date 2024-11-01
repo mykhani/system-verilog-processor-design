@@ -34,7 +34,10 @@ module control_unit (
                     end
                 endcase
             end
-            MEMORY_ACCESS: next_state = WRITE_BACK;
+            MEMORY_ACCESS: begin
+                if (opcode == OPCODE_LD) next_state = WRITE_BACK;
+                else next_state = FETCH;
+            end
             WRITE_BACK: next_state = FETCH;
         endcase
     end
@@ -80,11 +83,9 @@ module control_unit (
                 alu_write = 1;
                 case (opcode)
                     OPCODE_ADD: begin
-                        zero_write = 1;
                         alu_op = ALU_ADD;
                     end
                     OPCODE_ADDI: begin
-                        zero_write = 1;
                         alu_src1 = 2'b11; /* select immediate2 value as op1 */
                         alu_src2 = 2'b00; /* select rd2 value as op2 */
                         alu_op = ALU_ADD;
@@ -124,7 +125,7 @@ module control_unit (
                         alu_src2 = 2'b11; /* select 0 value as op2 */
                         alu_op = ALU_ADD; /* adding 0 effectively means result is rd1 value */
                     end
-                                        OPCODE_BEQ: begin
+                    OPCODE_BEQ: begin
                         result_src = 2'b11; /* select immediate4 as result */
                         if (zero) pc_write = 1;
                     end

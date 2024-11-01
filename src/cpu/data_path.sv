@@ -37,15 +37,15 @@ module data_path (
     /* data memory to be accessed by LD, ST instrs
     *  the read/write address is inside the src register of the instr
     *  the data to write is inside dst register of the instr */
-    memory #(.WIDTH(4)) data_mem(clk, reset, data_write, rd1, rd2, read_data);
+    memory #(.WIDTH(4)) data_mem(clk, reset, data_write, rd2, rd1, read_data);
 
     /* mux to allow a single ALU to be shared by different operands i.e. PC,
     * registers */
     mux_4to1 #(.BUS_WIDTH(4)) alu_op_mux1(pc, rd1, 4'd0, extended_imm2,
-            alu_src1, op1);
+            alu_src1, op2);
 
     mux_4to1 #(.BUS_WIDTH(4)) alu_op_mux2(rd2, instr.operand.imm4, 4'd1, 4'd0,
-            alu_src2, op2);
+            alu_src2, op1);
 
     mux_4to1 #(.BUS_WIDTH(4)) result_mux(alu_out, read_data, alu_result, instr.operand.imm4,
             result_src, result);
