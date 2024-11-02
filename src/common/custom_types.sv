@@ -7,21 +7,21 @@ package custom_types;
     } regs_t;
 
     typedef enum logic [3:0] {
-        OPCODE_ADD,
-        OPCODE_SUB,
-        OPCODE_AND,
-        OPCODE_OR,
-        OPCODE_XOR,
-        OPCODE_LD,
-        OPCODE_ST,
-        OPCODE_JMP,
-        OPCODE_BEQ,
-        OPCODE_BNE,
-        OPCODE_MOV,
-        OPCODE_MOVI,
-        OPCODE_ADDI,
-        OPCODE_SUBI,
-        OPCODE_LSLI
+        /* 0x0 */ OPCODE_ADD,
+        /* 0x1 */ OPCODE_SUB,
+        /* 0x2 */ OPCODE_AND,
+        /* 0x3 */ OPCODE_OR,
+        /* 0x4 */ OPCODE_XOR,
+        /* 0x5 */ OPCODE_LD,
+        /* 0x6 */ OPCODE_ST,
+        /* 0x7 */ OPCODE_JMP,
+        /* 0x8 */ OPCODE_BEQ,
+        /* 0x9 */ OPCODE_BNE,
+        /* 0xA */ OPCODE_MOV,
+        /* 0xB */ OPCODE_MOVI,
+        /* 0xC */ OPCODE_ADDI,
+        /* 0xD */ OPCODE_SUBI,
+        /* 0xE */ OPCODE_LSLI
     } opcode_t;
 
     typedef enum logic [2:0] {

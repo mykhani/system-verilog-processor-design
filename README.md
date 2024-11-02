@@ -202,3 +202,24 @@ For example:
 RD = 4'b0011;
 LSLI RD, #2 results RD = 4'b1100
 ```
+
+### Instructions Verified
+The following instructions have been verified via the cpu testbench.
+
+| No. | Instruction | Verified             |
+|-----|-------------|----------------------|
+|1.   | ADD         | :white_check_mark:   |
+|2.   | SUB         | :white_large_square: |
+|3.   | AND         | :white_large_square: |
+|4.   | OR          | :white_large_square: |
+|5.   | XOR         | :white_large_square: |
+|6.   | LD          | :white_check_mark:   |
+|7.   | ST          | :white_check_mark:   |
+|8.   | JMP         | :white_check_mark:   |
+|9.   | BEQ         | :white_large_square: |
+|10.  | BNE         | :white_check_mark:   |
+|11.  | MOV         | :white_large_square: |
+|12.  | MOVI        | :white_check_mark:   |
+|13.  | ADDI        | :white_check_mark:   |
+|14.  | SUBI        | :white_check_mark:   |
+|15.  | LSLI        | :white_check_mark:   |

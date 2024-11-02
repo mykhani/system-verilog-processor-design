@@ -22,6 +22,7 @@ module mux_4to1 #(BUS_WIDTH = 4) (
             2'b01: out = input_b;
             2'b10: out = input_c;
             2'b11: out = input_d;
+            default: out = 4'b0000;
         endcase
     end
 endmodule
