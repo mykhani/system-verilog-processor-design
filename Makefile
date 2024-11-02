@@ -1,10 +1,14 @@
 define SRC_FILES
-	common/custom_types.sv
-	lib/mux/mux.sv
-	lib/register/register.sv
-	lib/register_file/register_file.sv
-	lib/alu/alu.sv
-	lib/memory/memory.sv
+	src/common/custom_types.sv
+	src/lib/mux/mux.sv
+	src/lib/register/register.sv
+	src/lib/register_file/register_file.sv
+	src/lib/alu/alu.sv
+	src/lib/memory/memory.sv
+	src/cpu/control_unit.sv
+	src/cpu/data_path.sv
+	src/cpu/cpu.sv
+	src/cpu/cpu_tb.sv
 endef
 
 # Strip whitespace added before filenames. := is for immediate
@@ -16,8 +20,8 @@ SRC_FILES := $(strip $(SRC_FILES))
 
 all: cpu_test
 
-cpu_test: $(SRC_FILES) cpu/control_unit.sv cpu/data_path.sv cpu/cpu.sv cpu/cpu_tb.sv
-	iverilog -Wall -g2012 ${SRC_FILES} cpu/control_unit.sv cpu/data_path.sv cpu/cpu.sv cpu/cpu_tb.sv -o cpu_test
+cpu_test: $(SRC_FILES)
+	iverilog -Wall -g2012 ${SRC_FILES} -o cpu_test
 
 cpu.vcd: cpu_test
 	./cpu_test
