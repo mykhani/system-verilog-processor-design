@@ -95,11 +95,11 @@ For example:
 | 4-bit opcode (0111) | 4-bit immediate val   |
 +---------------------+-----------------------+
 ```
-JMP instruction changes the program counter to the current PC value plus
-the 4-bit immediate offset.
+JMP instruction changes the program counter to the absolute address specified by
+the 4-bit immediate value.
 For example:
 ```
- JMP 4'b1010 results new PC = curr PC + 4'b1010
+ JMP 4'b1010 results new PC = 4'b1010
 ```
 
 ### BEQ
@@ -108,8 +108,9 @@ For example:
 | 4-bit opcode (1000) | 4-bit immediate val   |
 +---------------------+-----------------------+
 ```
-BEQ is similar to JMP add changes the program counter to the current PC value plus
-the 4-bit immediate offset, but only if the zero flag is set.
+BEQ changes the program counter to the address of next instruction plus the
+4-bit immediate offset, only if the zero flag is set.
+
 For example:
 ```
 R0 = 2;
@@ -124,8 +125,9 @@ BEQ 4'b1010 results new PC = curr PC + 4'b1010
 | 4-bit opcode (1001) | 4-bit immediate val   |
 +---------------------+-----------------------+
 ```
-BNE is similar to BEQ add changes the program counter to the current PC value plus
-the 4-bit immediate offset, but only if the zero flag is unset.
+BNE changes the program counter to the address of next instruction plus the
+4-bit immediate offset, only if the zero flag is not set.
+
 For example:
 ```
 R0 = 4;
