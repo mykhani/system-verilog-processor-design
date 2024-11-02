@@ -60,9 +60,9 @@ module cpu_tb;
         $display("Writing program 1 to populate data memory");
 
         /* R3 contains the loop count value
-         * R0 contains the data memory address
+         * R0 contains the data memory address to write
          * R1 contains the value to be written to the address
-         * R2 is used as intermediate calculations
+         * R2 is used for intermediate calculations
          */
         opcode = OPCODE_MOVI;
         operand.imm2.dst = R3;
@@ -105,7 +105,7 @@ module cpu_tb;
         operand.imm2.val = 2'd1;
         program_instruction(4'b0111);
 
-        /* update value in R1 */
+        /* increment the value in R1 */
         opcode = OPCODE_ADDI;
         operand.imm2.dst = R1;
         operand.imm2.val = 2'd1;
@@ -140,9 +140,9 @@ module cpu_tb;
         $display("Writing program 2 to read data memory");
 
         /* R3 contains the loop count value
-         * R0 contains the data memory address
+         * R0 contains the data memory address to read
          * R1 contains the value read from the address
-         * R2 is used as intermediate calculations
+         * R2 is used for intermediate calculations
          */
         opcode = OPCODE_MOVI;
         operand.imm2.dst = R3;
