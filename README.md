@@ -1,3 +1,26 @@
+# Simple 4-bit CPU design in System Verilog
+
+## Installation instructions (Linux)
+1. Follow the instructions at https://steveicarus.github.io/iverilog/usage/installation.html
+to Install the Icarus simulator
+```
+git clone https://github.com/steveicarus/iverilog.git
+cd iverilog
+./configure
+make -j 16 && sudo make install
+```
+2. Install the gtkwave to view signal waveforms.
+```
+sudo apt install gtkwave
+```
+
+## Running the CPU testbench
+```
+git clone https://github.com/mykhani/system-verilog-processor-design.git
+cd system-verilog-processor-design
+make view
+```
+
 ## Required Instructions
 
 ### ADD
