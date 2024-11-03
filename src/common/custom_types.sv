@@ -44,14 +44,20 @@ package custom_types;
 
     typedef union packed {
         struct packed {
-            logic [1:0] src;
-            logic [1:0] dst;
-        } regs;
+            logic [1:0] rs;
+            logic [1:0] rd;
+        } rtype;
         struct packed {
-            logic [1:0] val;
-            logic [1:0] dst;
-        } imm2;
-        logic [3:0] imm4;
+            logic [1:0] imm2;
+            logic [1:0] rd;
+        } itype;
+        struct packed {
+            logic [1:0] rs1;
+            logic [1:0] rs2;
+        } stype;
+        struct packed {
+            logic [3:0] imm4;
+        } btype;
     } operand_t;
 
     typedef struct packed {

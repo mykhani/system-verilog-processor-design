@@ -65,67 +65,67 @@ module cpu_tb;
          * R2 is used for intermediate calculations
          */
         opcode = OPCODE_MOVI;
-        operand.imm2.dst = R3;
-        operand.imm2.val = 2'b11;
+        operand.itype.rd = R3;
+        operand.itype.imm2 = 2'b11;
         program_instruction(4'b0000);
 
         opcode = OPCODE_MOVI;
-        operand.imm2.dst = R2;
-        operand.imm2.val = 2'b11;
+        operand.itype.rd = R2;
+        operand.itype.imm2 = 2'b11;
         program_instruction(4'b0001);
 
         opcode = OPCODE_LSLI;
-        operand.imm2.dst = R3;
-        operand.imm2.val = 2'd2;
+        operand.itype.rd = R3;
+        operand.itype.imm2 = 2'd2;
         program_instruction(4'b0010);
 
         opcode = OPCODE_ADD;
-        operand.regs.dst = R3;
-        operand.regs.src = R2;
+        operand.rtype.rd = R3;
+        operand.rtype.rs = R2;
         program_instruction(4'b0011);
 
         opcode = OPCODE_MOVI;
-        operand.imm2.dst = R0;
-        operand.imm2.val = 2'b00;
+        operand.itype.rd = R0;
+        operand.itype.imm2 = 2'b00;
         program_instruction(4'b0100);
 
         opcode = OPCODE_MOVI;
-        operand.imm2.dst = R1;
-        operand.imm2.val = 2'b00;
+        operand.itype.rd = R1;
+        operand.itype.imm2 = 2'b00;
         program_instruction(4'b0101);
 
 /*loop*/opcode = OPCODE_ST;
-        operand.regs.dst = R0;
-        operand.regs.src = R1;
+        operand.stype.rs1 = R0;
+        operand.stype.rs2 = R1;
         program_instruction(4'b0110);
 
         /* increment address in R0 */
         opcode = OPCODE_ADDI;
-        operand.imm2.dst = R0;
-        operand.imm2.val = 2'd1;
+        operand.itype.rd = R0;
+        operand.itype.imm2 = 2'd1;
         program_instruction(4'b0111);
 
         /* increment the value in R1 */
         opcode = OPCODE_ADDI;
-        operand.imm2.dst = R1;
-        operand.imm2.val = 2'd1;
+        operand.itype.rd = R1;
+        operand.itype.imm2 = 2'd1;
         program_instruction(4'b1000);
 
         /* decrement loop count */
         opcode = OPCODE_SUBI;
-        operand.imm2.dst = R3;
-        operand.imm2.val = 2'd1;
+        operand.itype.rd = R3;
+        operand.itype.imm2 = 2'd1;
         program_instruction(4'b1001);
 
         /* continue loop if count is not 0 */
         opcode = OPCODE_BNE;
         /* branch to address 0110 (offset -5 from next instruction)
         * -5 = 1011 */
-        operand.imm4 = 4'b1011;
+        operand.btype.imm4 = 4'b1011;
         program_instruction(4'b1010);
 
         opcode = OPCODE_JMP;
-        operand.imm4 = 4'b1001; /* get stuck here */
+        operand.btype.imm4 = 4'b1001; /* get stuck here */
         program_instruction(4'b1011);
 
         /* stop programming and release CPU from Reset after delay */
@@ -139,62 +139,85 @@ module cpu_tb;
 
         $display("Writing program 2 to read data memory");
 
+        /* Data memory must have the following contents by now
+        *
+        * +---------+----------+
+        * | Address |   Data   |
+        * +---------+----------+
+        * | 4'b0000 | 4'b0000  |
+        * | 4'b0001 | 4'b0001  |
+        * | 4'b0010 | 4'b0010  |
+        * | 4'b0011 | 4'b0011  |
+        * | 4'b0100 | 4'b0100  |
+        * | 4'b0101 | 4'b0101  |
+        * | 4'b0110 | 4'b0110  |
+        * | 4'b0111 | 4'b0111  |
+        * | 4'b1000 | 4'b1000  |
+        * | 4'b1001 | 4'b1001  |
+        * | 4'b1010 | 4'b1010  |
+        * | 4'b1011 | 4'b1011  |
+        * | 4'b1100 | 4'b1100  |
+        * | 4'b1101 | 4'b1101  |
+        * | 4'b1110 | 4'b1110  |
+        * +---------+----------+
+        */
+
         /* R3 contains the loop count value
          * R0 contains the data memory address to read
          * R1 contains the value read from the address
          * R2 is used for intermediate calculations
          */
         opcode = OPCODE_MOVI;
-        operand.imm2.dst = R3;
-        operand.imm2.val = 2'b11;
+        operand.itype.rd = R3;
+        operand.itype.imm2 = 2'b11;
         program_instruction(4'b0000);
 
         opcode = OPCODE_MOVI;
-        operand.imm2.dst = R2;
-        operand.imm2.val = 2'b11;
+        operand.itype.rd = R2;
+        operand.itype.imm2 = 2'b11;
         program_instruction(4'b0001);
 
         opcode = OPCODE_LSLI;
-        operand.imm2.dst = R3;
-        operand.imm2.val = 2'd2;
+        operand.itype.rd = R3;
+        operand.itype.imm2 = 2'd2;
         program_instruction(4'b0010);
 
         opcode = OPCODE_ADD;
-        operand.regs.dst = R3;
-        operand.regs.src = R2;
+        operand.rtype.rd = R3;
+        operand.rtype.rs = R2;
         program_instruction(4'b0011);
 
         opcode = OPCODE_MOVI;
-        operand.imm2.dst = R0;
-        operand.imm2.val = 2'b00;
+        operand.itype.rd = R0;
+        operand.itype.imm2 = 2'b00;
         program_instruction(4'b0100);
 
 /*loop*/opcode = OPCODE_LD;
-        operand.regs.dst = R1;
-        operand.regs.src = R0;
+        operand.rtype.rd = R1;
+        operand.rtype.rs = R0;
         program_instruction(4'b0101);
 
         /* increment address in R0 */
         opcode = OPCODE_ADDI;
-        operand.imm2.dst = R0;
-        operand.imm2.val = 2'd1;
+        operand.itype.rd = R0;
+        operand.itype.imm2 = 2'd1;
         program_instruction(4'b0110);
 
         /* decrement loop count */
         opcode = OPCODE_SUBI;
-        operand.imm2.dst = R3;
-        operand.imm2.val = 2'd1;
+        operand.itype.rd = R3;
+        operand.itype.imm2 = 2'd1;
         program_instruction(4'b0111);
 
         /* continue loop if count is not 0 */
         opcode = OPCODE_BNE;
         /* branch to address 0101 (offset -4 from the next instruction)
         * -4 = 1100 */
-        operand.imm4 = 4'b1100;
+        operand.btype.imm4 = 4'b1100;
         program_instruction(4'b1000);
 
         opcode = OPCODE_JMP;
-        operand.imm4 = 4'b1001; /* get stuck here */
+        operand.btype.imm4 = 4'b1001; /* get stuck here */
         program_instruction(4'b1001);
 
         /* stop programming and release CPU from Reset after delay */
@@ -202,6 +225,202 @@ module cpu_tb;
 
         /* wait for the program to run */
         #3000;
+
+        /* Reset CPU to write another program to test AND, XOR and MOV
+        * instructions */
+        cpu_reset=1; #10; prog_enable=1;
+
+        $display("Writing program 3 to test AND, XOR, and BEQ instructions");
+
+        /* Test
+        *
+        * Run a loop 15 times
+        * Find even values by taking AND with 0001
+        * Make even values odd by taking XOR with 0001
+        *
+        * R3 is loop counter;
+        * R0 contains address index to read
+        * R1 contains value read from address
+        * R2 = 0001
+        */
+        opcode = OPCODE_MOVI;
+        operand.itype.rd = R3;
+        operand.itype.imm2 = 2'b11;
+        program_instruction(4'b0000);
+
+        opcode = OPCODE_MOVI;
+        operand.itype.rd = R2;
+        operand.itype.imm2 = 2'b11;
+        program_instruction(4'b0001);
+
+        opcode = OPCODE_LSLI;
+        operand.itype.rd = R3;
+        operand.itype.imm2 = 2'd2;
+        program_instruction(4'b0010);
+
+        opcode = OPCODE_ADD;
+        operand.rtype.rd = R3;
+        operand.rtype.rs = R2;
+        program_instruction(4'b0011);
+
+        /* R2=2'b11 at this point, subtract 2 to make R2=1 */
+        opcode = OPCODE_SUBI;
+        operand.itype.rd = R2;
+        operand.itype.imm2 = 2'd2;
+        program_instruction(4'b0100);
+
+/*loop*/opcode = OPCODE_LD;
+        operand.rtype.rd = R1;
+        operand.rtype.rs = R0;
+        program_instruction(4'b0101);
+
+        opcode = OPCODE_AND;
+        operand.rtype.rd = R1;
+        operand.rtype.rs = R2;
+        program_instruction(4'b0110);
+
+        opcode = OPCODE_BEQ;
+        operand.btype.imm4 = 4'b0001; /* offset from PC */
+        program_instruction(4'b0111);
+
+        opcode = OPCODE_JMP;
+        operand.btype.imm4 = 4'b1100; /* loop end */
+        program_instruction(4'b1000);
+
+/*XOR*/ opcode = OPCODE_LD;
+        operand.rtype.rd = R1;
+        operand.rtype.rs = R0;
+        program_instruction(4'b1001);
+
+        opcode = OPCODE_XOR;
+        operand.rtype.rd = R1;
+        operand.rtype.rs = R2;
+        program_instruction(4'b1010);
+
+        opcode = OPCODE_ST;
+        operand.stype.rs1 = R0;
+        operand.stype.rs2 = R1;
+        program_instruction(4'b1011);
+
+/*end*/ opcode = OPCODE_ADDI;
+        operand.itype.rd = R0;
+        operand.itype.imm2 = 2'd1;
+        program_instruction(4'b1100);
+
+        opcode = OPCODE_SUBI;
+        operand.itype.rd = R3;
+        operand.itype.imm2 = 2'd1;
+        program_instruction(4'b1101);
+
+        opcode = OPCODE_BNE;
+        /* offset to loop start from PC is -10 = 0110*/
+        operand.btype.imm4 = 4'b0110;
+        program_instruction(4'b1110);
+
+        opcode = OPCODE_JMP;
+        operand.btype.imm4 = 4'b1111;
+        program_instruction(4'b1111); /* get stuck here */
+
+        /* stop programming and release CPU from Reset after delay */
+        prog_enable=0; prog_data=0; #10; cpu_reset=0;
+
+        /* wait for the program to run */
+        #6000;
+
+        /* Reset CPU to write another program to read the populated data memory */
+        cpu_reset=1; #10; prog_enable=1;
+
+        $display("Writing program 2 to read data memory");
+
+        /* Data memory must have the following contents by now
+        *
+        * +---------+----------+
+        * | Address |   Data   |
+        * +---------+----------+
+        * | 4'b0000 | 4'b0001  |
+        * | 4'b0001 | 4'b0001  |
+        * | 4'b0010 | 4'b0011  |
+        * | 4'b0011 | 4'b0011  |
+        * | 4'b0100 | 4'b0101  |
+        * | 4'b0101 | 4'b0101  |
+        * | 4'b0110 | 4'b0111  |
+        * | 4'b0111 | 4'b0111  |
+        * | 4'b1000 | 4'b1001  |
+        * | 4'b1001 | 4'b1001  |
+        * | 4'b1010 | 4'b1011  |
+        * | 4'b1011 | 4'b1011  |
+        * | 4'b1100 | 4'b1101  |
+        * | 4'b1101 | 4'b1101  |
+        * | 4'b1110 | 4'b1111  |
+        * +---------+----------+
+        */
+
+        /* R3 contains the loop count value
+         * R0 contains the data memory address to read
+         * R1 contains the value read from the address
+         * R2 is used for intermediate calculations
+         */
+        opcode = OPCODE_MOVI;
+        operand.itype.rd = R3;
+        operand.itype.imm2 = 2'b11;
+        program_instruction(4'b0000);
+
+        opcode = OPCODE_MOVI;
+        operand.itype.rd = R2;
+        operand.itype.imm2 = 2'b11;
+        program_instruction(4'b0001);
+
+        opcode = OPCODE_LSLI;
+        operand.itype.rd = R3;
+        operand.itype.imm2 = 2'd2;
+        program_instruction(4'b0010);
+
+        opcode = OPCODE_ADD;
+        operand.rtype.rd = R3;
+        operand.rtype.rs = R2;
+        program_instruction(4'b0011);
+
+        opcode = OPCODE_MOVI;
+        operand.itype.rd = R0;
+        operand.itype.imm2 = 2'b00;
+        program_instruction(4'b0100);
+
+/*loop*/opcode = OPCODE_LD;
+        operand.rtype.rd = R1;
+        operand.rtype.rs = R0;
+        program_instruction(4'b0101);
+
+        /* increment address in R0 */
+        opcode = OPCODE_ADDI;
+        operand.itype.rd = R0;
+        operand.itype.imm2 = 2'd1;
+        program_instruction(4'b0110);
+
+        /* decrement loop count */
+        opcode = OPCODE_SUBI;
+        operand.itype.rd = R3;
+        operand.itype.imm2 = 2'd1;
+        program_instruction(4'b0111);
+
+        /* continue loop if count is not 0 */
+        opcode = OPCODE_BNE;
+        /* branch to address 0101 (offset -4 from the next instruction)
+        * -4 = 1100 */
+        operand.btype.imm4 = 4'b1100;
+        program_instruction(4'b1000);
+
+        opcode = OPCODE_JMP;
+        operand.btype.imm4 = 4'b1001; /* get stuck here */
+        program_instruction(4'b1001);
+
+        /* stop programming and release CPU from Reset after delay */
+        prog_enable=0; prog_data=0; #10; cpu_reset=0;
+
+        /* wait for the program to run */
+        #3000;
+
+        /* Reset CPU to write another program instructions */
+        cpu_reset=1; #10; prog_enable=1;
 
         $finish;
     end

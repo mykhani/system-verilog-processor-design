@@ -8,7 +8,6 @@ module control_unit (
     output logic ir_write, pc_write, reg_write, mem_write, alu_write, zero_write,
     output logic [1:0] alu_sel1, alu_sel2,
     output alu_operation_t alu_op,
-    output logic addr_sel,
     output logic [1:0] result_sel
 );
     state_t state, next_state;
@@ -25,8 +24,8 @@ module control_unit (
             EXECUTE: begin
                 case (opcode)
                     OPCODE_ADD, OPCODE_SUB, OPCODE_AND, OPCODE_OR,
-                    OPCODE_XOR, OPCODE_LSLI, OPCODE_MOVI, OPCODE_SUBI,
-                    OPCODE_ADDI: begin
+                    OPCODE_XOR, OPCODE_LSLI, OPCODE_MOVI, OPCODE_MOV,
+                    OPCODE_SUBI, OPCODE_ADDI: begin
                         next_state = WRITE_BACK;
                     end
                     OPCODE_LD, OPCODE_ST: begin
@@ -122,6 +121,7 @@ module control_unit (
                         alu_sel1 = 2'b00; /* select rd2 as op1 */
                         alu_sel2 = 2'b10; /* select rd1 as op2 */
                         alu_op = ALU_AND;
+                        zero_write = 1;
                         alu_write = 1; /* store ALU result to be used in the next step */
                     end
                     OPCODE_OR: begin
@@ -179,13 +179,9 @@ module control_unit (
                 /* select memory address source */
                 if (opcode == OPCODE_LD) begin
                     /* load instruction */
-                    addr_sel = 0; /* rd1 contains memory address to read */
-                                  /* rd2 contains data to write */
                     result_sel = 2'b00; /* select read data */
                 end else begin
                     /* store instruction */
-                    addr_sel = 1; /* rd2 contains memory address to write */
-                                  /* rd1 contains data to write */
                     mem_write = 1; /* enable writing to memory */
                 end
             end
