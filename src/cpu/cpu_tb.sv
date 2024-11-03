@@ -226,8 +226,7 @@ module cpu_tb;
         /* wait for the program to run */
         #3000;
 
-        /* Reset CPU to write another program to test AND, XOR and MOV
-        * instructions */
+        /* Reset CPU to write another program */
         cpu_reset=1; #10; prog_enable=1;
 
         $display("Writing program 3 to test AND, XOR, and BEQ instructions");
@@ -330,7 +329,7 @@ module cpu_tb;
         /* Reset CPU to write another program to read the populated data memory */
         cpu_reset=1; #10; prog_enable=1;
 
-        $display("Writing program 2 to read data memory");
+        $display("Writing program 4 to read data memory");
 
         /* Data memory must have the following contents by now
         *
@@ -421,6 +420,66 @@ module cpu_tb;
 
         /* Reset CPU to write another program instructions */
         cpu_reset=1; #10; prog_enable=1;
+
+        $display("Writing program 5 to test MOV, SUB, and BEQ and OR instructions");
+
+        opcode = OPCODE_MOVI;
+        operand.itype.rd = R1;
+        operand.itype.imm2 = 2'b10;
+        program_instruction(4'b0000);
+
+        opcode = OPCODE_MOVI;
+        operand.itype.rd = R2;
+        operand.itype.imm2 = 2'b10;
+        program_instruction(4'b0001);
+
+        opcode = OPCODE_LSLI;
+        operand.itype.rd = R1;
+        operand.itype.imm2 = 2'd2;
+        program_instruction(4'b0010);
+
+        opcode = OPCODE_ADD;
+        operand.rtype.rd = R1;
+        operand.rtype.rs = R2;
+        program_instruction(4'b0011);
+
+        /* R1 = 1010, R2=0010 at this point */
+
+        /* R3 = R1 */
+        opcode = OPCODE_MOV;
+        operand.rtype.rd = R3;
+        operand.rtype.rs = R1;
+        program_instruction(4'b0100);
+
+        /* R3 = R3 - R2 i.e. 1010 - 0010 = 1000 */
+        opcode = OPCODE_SUB;
+        operand.rtype.rd = R3;
+        operand.rtype.rs = R2;
+        program_instruction(4'b0101);
+
+        /* R3 = R3 + 3 = 1011 */
+        opcode = OPCODE_ADDI;
+        operand.itype.rd = R3;
+        operand.itype.imm2 = 2'b11;
+        program_instruction(4'b0110);
+
+        /* R1 = R1 | R3 = 1010 | 1011 = 1011 */
+        opcode = OPCODE_OR;
+        operand.rtype.rd = R1;
+        operand.rtype.rs = R3;
+        program_instruction(4'b0111);
+
+        /* R1 = R1 - R3 = 1011 - 1011 = 0000 */
+        opcode = OPCODE_SUB;
+        operand.rtype.rs = R1;
+        operand.rtype.rs = R3;
+        program_instruction(4'b1000);
+
+        /* stop programming and release CPU from Reset after delay */
+        prog_enable=0; prog_data=0; #10; cpu_reset=0;
+
+        /* wait for the program to run */
+        #2000;
 
         $finish;
     end

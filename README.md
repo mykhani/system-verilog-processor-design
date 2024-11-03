@@ -238,16 +238,16 @@ The following instructions have been verified via the cpu testbench.
 | No. | Instruction | Verified             |
 |-----|-------------|----------------------|
 |1.   | ADD         | :white_check_mark:   |
-|2.   | SUB         | :white_large_square: |
+|2.   | SUB         | :white_check_mark:   |
 |3.   | AND         | :white_check_mark:   |
-|4.   | OR          | :white_large_square: |
+|4.   | OR          | :white_check_mark:   |
 |5.   | XOR         | :white_check_mark:   |
 |6.   | LD          | :white_check_mark:   |
 |7.   | ST          | :white_check_mark:   |
 |8.   | JMP         | :white_check_mark:   |
 |9.   | BEQ         | :white_check_mark:   |
 |10.  | BNE         | :white_check_mark:   |
-|11.  | MOV         | :white_large_square: |
+|11.  | MOV         | :white_check_mark:   |
 |12.  | MOVI        | :white_check_mark:   |
 |13.  | ADDI        | :white_check_mark:   |
 |14.  | SUBI        | :white_check_mark:   |
