@@ -127,9 +127,7 @@ module cpu_tb;
 
         /* continue loop if count is not 0 */
         opcode = OPCODE_BNE;
-        /* branch to address 0110 (offset -5 from next instruction)
-        * -5 = 1011 */
-        operand.btype.imm4 = 4'b1011;
+        operand.btype.imm4 = 4'b0110;
         program_instruction(4'b1010);
 
         opcode = OPCODE_JMP;
@@ -174,7 +172,7 @@ module cpu_tb;
         /* loop should execute 15 times */
         for (logic [3:0] i = 0; i < 15; i++) begin
             /* ST R0, R1 -> mem[R0] = R1 */
-            cpu_step(4);
+            cpu_step(3);
             assert(cpu.datapath.data_mem.mem[i] == i) else 
                     $error("Expected %b, actual %b", i, cpu.datapath.data_mem.mem[i]);
 
@@ -194,7 +192,7 @@ module cpu_tb;
                     $error("Expected %b, actual %b", 15 - i - 1, cpu.datapath.reg_file.regs[R3]);
             
             /* BNE loop */
-            cpu_step(3);
+            cpu_step(2);
             if (i < 14) begin
                 assert(cpu.datapath.program_counter.stored_value == 4'b0110) else 
                         $error("Expected %b, actual %b", 4'b0110, cpu.datapath.program_counter.stored_value);
@@ -205,7 +203,7 @@ module cpu_tb;
         assert(cpu.datapath.program_counter.stored_value == 4'b1011) else 
                     $error("Expected %b, actual %b", 4'b1011, cpu.datapath.program_counter.stored_value);
        
-        cpu_step(3);
+        cpu_step(2);
         assert(cpu.datapath.program_counter.stored_value == 4'b1011) else 
                 $error("Expected %b, actual %b", 4'b1011, cpu.datapath.program_counter.stored_value);
 
@@ -348,7 +346,7 @@ module cpu_tb;
         /* inject value in R0 */
         cpu.datapath.reg_file.regs[R0] = 4'd10;
 
-        cpu_step(5);
+        cpu_step(4);
         assert(cpu.datapath.reg_file.regs[R1] == 4'd10) else 
                     $error("Expected %b, actual %b", 4'd10, cpu.datapath.reg_file.regs[R1]);
         
@@ -380,7 +378,7 @@ module cpu_tb;
         program_instruction(4'b0000);
 
         opcode = OPCODE_BEQ;
-        operand.btype.imm4 = 4'b0011;
+        operand.btype.imm4 = 4'b0101;
         program_instruction(4'b0001);
 
         opcode = OPCODE_SUB;
@@ -389,7 +387,7 @@ module cpu_tb;
         program_instruction(4'b0101);
 
         opcode = OPCODE_BNE;
-        operand.btype.imm4 = 4'b0010;
+        operand.btype.imm4 = 4'b1001;
         program_instruction(4'b0110);
 
         cpu_reset = 1; cpu_step(1); cpu_reset = 0;
@@ -408,7 +406,7 @@ module cpu_tb;
         assert(cpu.datapath.zero_reg.stored_value == 1'b1) else 
                     $error("Expected %b, actual %b", 1'b1, cpu.datapath.zero_reg.stored_value);
 
-        cpu_step(3);
+        cpu_step(2);
 
         assert(cpu.datapath.program_counter.stored_value == 4'b0101) else 
                     $error("Expected %b, actual %b", 4'b0101, cpu.datapath.program_counter.stored_value);
@@ -421,7 +419,7 @@ module cpu_tb;
         assert(cpu.datapath.zero_reg.stored_value == 1'b0) else 
                     $error("Expected %b, actual %b", 1'b0, cpu.datapath.zero_reg.stored_value);
 
-        cpu_step(3);
+        cpu_step(2);
 
         assert(cpu.datapath.program_counter.stored_value == 4'b1001) else 
                     $error("Expected %b, actual %b", 4'b1001, cpu.datapath.program_counter.stored_value);
