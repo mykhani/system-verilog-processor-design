@@ -35,7 +35,7 @@ See the [CPU Block Diagram](doc/cpu_block.png).
 ADD instruction adds two registers and stores the result into destination register.
 For example:
 ```
- ADD RD, RS results RD = RD + RS
+ ADD RD, RS --> RD = RD + RS
 ```
 
 ### SUB
@@ -47,7 +47,7 @@ For example:
 SUB instruction subtracts two registers and stores the result into destination register.
 For example:
 ```
- SUB RD, RS results RD = RD - RS
+ SUB RD, RS --> RD = RD - RS
 ```
 
 ### AND
@@ -60,7 +60,7 @@ AND instruction computes bitwise-AND of two registers and stores the result into
 destination register.
 For example:
 ```
- AND RD, RS results RD = RD & RS
+ AND RD, RS --> RD = RD & RS
 ```
 
 ### OR
@@ -73,7 +73,7 @@ OR instruction computes bitwise-OR of two registers and stores the result into
 destination register.
 For example:
 ```
- SUB RD, RS results RD = RD | RS
+ SUB RD, RS --> RD = RD | RS
 ```
 
 ### XOR
@@ -86,7 +86,7 @@ XOR instruction computes bitwise-XOR of two registers and stores the result into
 destination register.
 For example:
 ```
- XOR RD, RS results RD = RD ^ RS
+ XOR RD, RS --> RD = RD ^ RS
 ```
 
 ### LD
@@ -99,7 +99,7 @@ LD instruction copies the data stored at memory address contained in rs register
 and stores the result into destination register.
 For example:
 ```
- LD RD, RS results RD = mem[RS value]
+ LD RD, RS --> RD = mem[RS value]
 ```
 
 ### ST
@@ -113,7 +113,7 @@ contained inside rs1 register.
 
 For example:
 ```
- ST RS1, RS2 results mem[RS1] = RS2
+ ST RS1, RS2 --> mem[RS1] = RS2
 ```
 
 ### JMP
@@ -126,7 +126,7 @@ JMP instruction changes the program counter to the absolute address specified by
 the 4-bit immediate value.
 For example:
 ```
- JMP 4'b1010 results new PC = 4'b1010
+ JMP 4'b1010 --> new_pc = 4'b1010
 ```
 
 ### BEQ
@@ -135,15 +135,15 @@ For example:
 | 4-bit opcode (1000) | 4-bit immediate val   |
 +---------------------+-----------------------+
 ```
-BEQ changes the program counter to the address of next instruction plus the
-4-bit immediate offset, only if the zero flag is set.
+BEQ instruction changes the program counter to the absolute address specified by
+the 4-bit immediate value, only if the zero flag is set.
 
 For example:
 ```
 R0 = 2;
 R1 = 2;
 SUB R0, R1 // sets zero flag
-BEQ 4'b1010 results new PC = curr PC + 4'b1010
+BEQ 4'b1010 --> new_pc = 4'b1010
 ```
 
 ### BNE
@@ -152,15 +152,15 @@ BEQ 4'b1010 results new PC = curr PC + 4'b1010
 | 4-bit opcode (1001) | 4-bit immediate val   |
 +---------------------+-----------------------+
 ```
-BNE changes the program counter to the address of next instruction plus the
-4-bit immediate offset, only if the zero flag is not set.
+BNE instruction changes the program counter to the absolute address specified by
+the 4-bit immediate value, only if the zero flag is not set.
 
 For example:
 ```
 R0 = 4;
 R1 = 2;
 SUB R0, R1 // zero flag not set
-BNE 4'b1010 results new PC = curr PC + 4'b1010
+BNE 4'b1010 --> new_pc = 4'b1010
 ```
 
 # Extra Instructions
@@ -174,7 +174,7 @@ BNE 4'b1010 results new PC = curr PC + 4'b1010
 MOV instruction stores the data from rs register to the rd register.
 For example:
 ```
-MOV RD, RS results RD = RS
+MOV RD, RS --> RD = RS
 ```
 
 ### MOVI
@@ -187,7 +187,7 @@ MOVI instruction stores the 2-bit immediate value bit-extended to 4
 bits into the rd register.
 For example:
 ```
-MOVI RD, #1 results RD = 4'b0001
+MOVI RD, #1 --> RD = 4'b0001
 ```
 
 ### ADDI
@@ -201,7 +201,7 @@ bits to the rd register.
 For example:
 ```
 RD = 4'd3;
-ADDI RD, #1 results RD = 4'd4
+ADDI RD, #1 --> RD = 4'd4
 ```
 
 ### SUBI
@@ -215,7 +215,7 @@ bits from the rd register.
 For example:
 ```
 RD = 4'd3;
-SUBI RD, #1 results RD = 4'd2
+SUBI RD, #1 --> RD = 4'd2
 ```
 
 ### LSLI
@@ -229,26 +229,26 @@ bit positions
 For example:
 ```
 RD = 4'b0011;
-LSLI RD, #2 results RD = 4'b1100
+LSLI RD, #2 --> RD = 4'b1100
 ```
 
 ### Instructions Verified
 The following instructions have been verified via the cpu testbench.
 
-| No. | Instruction | Verified             |
-|-----|-------------|----------------------|
-|1.   | ADD         | :white_check_mark:   |
-|2.   | SUB         | :white_check_mark:   |
-|3.   | AND         | :white_check_mark:   |
-|4.   | OR          | :white_check_mark:   |
-|5.   | XOR         | :white_check_mark:   |
-|6.   | LD          | :white_check_mark:   |
-|7.   | ST          | :white_check_mark:   |
-|8.   | JMP         | :white_check_mark:   |
-|9.   | BEQ         | :white_check_mark:   |
-|10.  | BNE         | :white_check_mark:   |
-|11.  | MOV         | :white_check_mark:   |
-|12.  | MOVI        | :white_check_mark:   |
-|13.  | ADDI        | :white_check_mark:   |
-|14.  | SUBI        | :white_check_mark:   |
-|15.  | LSLI        | :white_check_mark:   |
+| No. | Instruction | Verified           |
+| --- | ----------- | ------------------ |
+| 1.  | ADD         | :white_check_mark: |
+| 2.  | SUB         | :white_check_mark: |
+| 3.  | AND         | :white_check_mark: |
+| 4.  | OR          | :white_check_mark: |
+| 5.  | XOR         | :white_check_mark: |
+| 6.  | LD          | :white_check_mark: |
+| 7.  | ST          | :white_check_mark: |
+| 8.  | JMP         | :white_check_mark: |
+| 9.  | BEQ         | :white_check_mark: |
+| 10. | BNE         | :white_check_mark: |
+| 11. | MOV         | :white_check_mark: |
+| 12. | MOVI        | :white_check_mark: |
+| 13. | ADDI        | :white_check_mark: |
+| 14. | SUBI        | :white_check_mark: |
+| 15. | LSLI        | :white_check_mark: |
