@@ -131,6 +131,10 @@ In a real RISC-V ISA, there are function bits inside an instruction that can cus
 
 In this case due to limited instruction bits, additional opcodes are introduced to define the following additional instructions.
 
+> [!NOTE]
+> It was found later that it is possible to intialise nested modules from within the testbench, so it it possible to initialise data memory from the testbench,
+> by accessing the hierarchical path of the nested module and then setting the desired values.
+
 <table>
   <tr>
     <th>Mnemonic </th>
@@ -336,7 +340,7 @@ Now before implementing the rest of the instruction i.e. `JMP`, `BEQ`, `BNE` mod
 
 As we discussed before, the *FETCH* state asserts signals to update the `pc` register with `next_pc` value but the actual update (`pc = next_pc`) happens during the transition to *DECODE* state (positive clock edge). So far we have ignored the calculation of `next_pc` but now it's time to address this.
 
-Updating the `pc` means pointing to the next instruction address in the data memory and as each instruction occupies one memory location, the value of `next_pc` should be `next_pc = pc + 1`
+Updating the `pc` means pointing to the next instruction address in the instruction memory and as each instruction occupies one memory location, the value of `next_pc` should be `next_pc = pc + 1`
 
 Since it is an addition operation, we need to utilise ALU. The idea is to use ALU in the *FETCH* state to calculate the value of `next_pc = PC + 1`. We need a mux before the ALU to switch between `registers` and `pc` as operands. 
 
