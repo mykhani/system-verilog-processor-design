@@ -500,7 +500,7 @@ LSLI RD, #2 results RD = 4'b1100
 No further changes required.
 
 ## State Transitions
-### ADD/SUB/AND/OR/XOR/MOV/MOVI/ADDI/SUBI
+### ADD/SUB/AND/OR/XOR/MOV/MOVI/ADDI/SUBI/LSLI
 ```mermaid
 stateDiagram-v2
     [*] --> FETCH
@@ -549,47 +549,47 @@ stateDiagram-v2
   </tr>
   <tr>
     <th>ADD</th>
-    <th>pc_write=1<br>ir_write=1<br>alu_sel1=0<br>alu_sel2=1<br>alu_op=000</th>
+    <th>pc_write=1<br>ir_write=1<br>alu_sel1=00<br>alu_sel2=01<br>alu_op=000<br>result_sel=01</th>
     <th>NA</th>
-    <th>alu_sel1=1<br>alu_sel2=0<br>alu_op=000<br></th>
+    <th>alu_sel1=01<br>alu_sel2=00<br>alu_op=000<br></th>
     <th>NA</th>
     <th>reg_write=1<br>result_sel=01</th>
   </tr>
   <tr>
     <th>SUB</th>
-    <th>pc_write=1<br>ir_write=1<br>alu_sel1=0<br>alu_sel2=1<br>alu_op=000</th>
+    <th>pc_write=1<br>ir_write=1<br>alu_sel1=00<br>alu_sel2=01<br>alu_op=000<br>result_sel=01</th>
     <th>NA</th>
-    <th>alu_sel1=1<br>alu_sel2=0<br>alu_op=001<br>zero_write=1</th>
+    <th>alu_sel1=01<br>alu_sel2=00<br>alu_op=001<br>zero_write=1</th>
     <th>NA</th>
     <th>reg_write=1<br>result_sel=01</th>
   </tr>
   <tr>
     <th>AND</th>
-    <th>pc_write=1<br>ir_write=1<br>alu_sel1=0<br>alu_sel2=1<br>alu_op=000</th>
+    <th>pc_write=1<br>ir_write=1<br>alu_sel1=00<br>alu_sel2=01<br>alu_op=000<br>result_sel=01</th>
     <th>NA</th>
-    <th>alu_sel1=1<br>alu_sel2=0<br>alu_op=010<br></th>
+    <th>alu_sel1=01<br>alu_sel2=00<br>alu_op=010<br></th>
     <th>NA</th>
     <th>reg_write=1<br>result_sel=01</th>
   </tr>
   <tr>
     <th>OR</th>
-    <th>pc_write=1<br>ir_write=1<br>alu_sel1=0<br>alu_sel2=1<br>alu_op=000</th>
+    <th>pc_write=1<br>ir_write=1<br>alu_sel1=00<br>alu_sel2=01<br>alu_op=000<br>result_sel=01</th>
     <th>NA</th>
-    <th>alu_sel1=1<br>alu_sel2=0<br>alu_op=011<br></th>
+    <th>alu_sel1=01<br>alu_sel2=00<br>alu_op=011<br></th>
     <th>NA</th>
     <th>reg_write=1<br>result_sel=01</th>
   </tr>
   <tr>
     <th>XOR</th>
-    <th>pc_write=1<br>ir_write=1<br>alu_sel1=0<br>alu_sel2=1<br>alu_op=000</th>
+    <th>pc_write=1<br>ir_write=1<br>alu_sel1=00<br>alu_sel2=01<br>alu_op=000<br>result_sel=01</th>
     <th>NA</th>
-    <th>alu_sel1=1<br>alu_sel2=0<br>alu_op=100<br></th>
+    <th>alu_sel1=01<br>alu_sel2=00<br>alu_op=100<br></th>
     <th>NA</th>
     <th>reg_write=1<br>result_sel=01</th>
   </tr>
   <tr>
     <th>LD</th>
-    <th>pc_write=1<br>ir_write=1<br>alu_sel1=0<br>alu_sel2=1<br>alu_op=000</th>
+    <th>pc_write=1<br>ir_write=1<br>alu_sel1=00<br>alu_sel2=01<br>alu_op=000<br>result_sel=01</th>
     <th>NA</th>
     <th>NA<br></th>
     <th>NA</th>
@@ -597,7 +597,7 @@ stateDiagram-v2
   </tr>
   <tr>
     <th>ST</th>
-    <th>pc_write=1<br>ir_write=1<br>alu_sel1=0<br>alu_sel2=1<br>alu_op=000</th>
+    <th>pc_write=1<br>ir_write=1<br>alu_sel1=00<br>alu_sel2=01<br>alu_op=000<br>result_sel=01</th>
     <th>NA</th>
     <th>NA<br></th>
     <th>mem_write=1</th>
@@ -605,7 +605,7 @@ stateDiagram-v2
   </tr>
   <tr>
     <th>JMP</th>
-    <th>pc_write=1<br>ir_write=1<br>alu_sel1=0<br>alu_sel2=1<br>alu_op=000</th>
+    <th>pc_write=1<br>ir_write=1<br>alu_sel1=00<br>alu_sel2=01<br>alu_op=000<br>result_sel=01</th>
     <th>pc_write=1<br>result_sel=10</th>
     <th>NA<br></th>
     <th>NA</th>
@@ -613,23 +613,23 @@ stateDiagram-v2
   </tr>
   <tr>
     <th>BEQ</th>
-    <th>pc_write=1<br>ir_write=1<br>alu_sel1=0<br>alu_sel2=1<br>alu_op=000</th>
+    <th>pc_write=1<br>ir_write=1<br>alu_sel1=00<br>alu_sel2=01<br>alu_op=000<br>result_sel=01</th>
     <th>pc_write=zero<br>result_sel=10</th>
-    <th>EXECUTE<br></th>
+    <th>NA<br></th>
     <th>NA</th>
-    <th>reg_write=1<br>result_sel=01</th>
+    <th>NA</th>
   </tr>
   <tr>
     <th>BNE</th>
-    <th>pc_write=1<br>ir_write=1<br>alu_sel1=0<br>alu_sel2=1<br>alu_op=000</th>
+    <th>pc_write=1<br>ir_write=1<br>alu_sel1=00<br>alu_sel2=01<br>alu_op=000<br>result_sel=01</th>
     <th>pc_write=!zero<br>result_sel=10</th>
-    <th>EXECUTE<br></th>
+    <th>NA<br></th>
     <th>NA</th>
-    <th>reg_write=1<br>result_sel=01</th>
+    <th>NA</th>
   </tr>
   <tr>
     <th>MOV</th>
-    <th>pc_write=1<br>ir_write=1<br>alu_sel1=0<br>alu_sel2=1<br>alu_op=000</th>
+    <th>pc_write=1<br>ir_write=1<br>alu_sel1=00<br>alu_sel2=01<br>alu_op=000<br>result_sel=01</th>
     <th>NA</th>
     <th>alu_sel1=10<br>alu_sel2=00<br>alu_op=000</th>
     <th>NA</th>
@@ -637,7 +637,7 @@ stateDiagram-v2
   </tr>
   <tr>
     <th>MOVI</th>
-    <th>pc_write=1<br>ir_write=1<br>alu_sel1=0<br>alu_sel2=1<br>alu_op=000</th>
+    <th>pc_write=1<br>ir_write=1<br>alu_sel1=00<br>alu_sel2=01<br>alu_op=000<br>result_sel=01</th>
     <th>NA</th>
     <th>alu_sel1=10<br>alu_sel2=10<br>alu_op=000</th>
     <th>NA</th>
@@ -645,7 +645,7 @@ stateDiagram-v2
   </tr>
   <tr>
     <th>ADDI</th>
-    <th>pc_write=1<br>ir_write=1<br>alu_sel1=0<br>alu_sel2=1<br>alu_op=000</th>
+    <th>pc_write=1<br>ir_write=1<br>alu_sel1=00<br>alu_sel2=01<br>alu_op=000<br>result_sel=01</th>
     <th>NA</th>
     <th>alu_sel1=01<br>alu_sel2=10<br>alu_op=000</th>
     <th>NA</th>
@@ -653,7 +653,7 @@ stateDiagram-v2
   </tr>
   <tr>
     <th>SUBI</th>
-    <th>pc_write=1<br>ir_write=1<br>alu_sel1=0<br>alu_sel2=1<br>alu_op=000</th>
+    <th>pc_write=1<br>ir_write=1<br>alu_sel1=00<br>alu_sel2=01<br>alu_op=000<br>result_sel=01</th>
     <th>NA</th>
     <th>alu_sel1=01<br>alu_sel2=10<br>alu_op=001</th>
     <th>NA</th>
@@ -661,7 +661,7 @@ stateDiagram-v2
   </tr>
   <tr>
     <th>LSLI</th>
-    <th>pc_write=1<br>ir_write=1<br>alu_sel1=0<br>alu_sel2=1<br>alu_op=000</th>
+    <th>pc_write=1<br>ir_write=1<br>alu_sel1=00<br>alu_sel2=01<br>alu_op=000<br>result_sel=01</th>
     <th>NA</th>
     <th>alu_sel1=01<br>alu_sel2=10<br>alu_op=110</th>
     <th>NA</th>
