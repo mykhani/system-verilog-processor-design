@@ -593,7 +593,7 @@ stateDiagram-v2
     <th>NA</th>
     <th>NA<br></th>
     <th>NA</th>
-    <th>reg_write=1<br>result_sel=01</th>
+    <th>reg_write=1<br>result_sel=00</th>
   </tr>
   <tr>
     <th>ST</th>
