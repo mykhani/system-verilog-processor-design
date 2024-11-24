@@ -2,21 +2,19 @@ import custom_types::*;
 
 module data_path (
     input logic clk, reset,
-    input instruction_t next_instr,
     input logic ir_write, pc_write, reg_write, mem_write, alu_write, zero_write,
     input logic [1:0] alu_sel1, alu_sel2,
     input alu_operation_t alu_op,
     input logic [1:0] result_sel,
     output logic zero,
-    output opcode_t opcode,
-    output logic [3:0] pc
+    output opcode_t opcode
 );
     logic [3:0] rd1, rd2, ignore;
     logic [3:0] read_data;
     logic [3:0] op1, op2, extended_imm2;
-    logic [3:0] alu_result, alu_out, result, next_pc, mem_addr;
+    logic [3:0] alu_result, alu_out, result, next_pc, pc, mem_addr;
     logic zero_result;
-    instruction_t instr;
+    instruction_t next_instr, instr;
     logic mem_reset;
 
     register_custom_width #(.WIDTH(4)) program_counter(clk, reset,
@@ -37,6 +35,9 @@ module data_path (
 
     /* data memory to be accessed by LD, ST instructions */
     memory #(.WIDTH(4)) data_mem(clk, mem_reset, mem_write, mem_addr, rd2, read_data);
+
+    /* instruction memory */
+    memory #(.WIDTH(8)) instr_mem(clk, mem_reset, 1'b0, pc, 8'd0, next_instr);
 
     /* mux to allow a single ALU to be shared by different operands i.e. PC,
     * registers */
