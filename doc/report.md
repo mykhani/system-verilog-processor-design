@@ -6,6 +6,12 @@ see the [project requirements](project.pdf).
 ## Proposed Design
 The proposed design is based on datapath and control unit for a FSM based multi-cyle CPU.
 
+<figure style="text-align: center;">
+  <img src="images/proposed_design.png" alt="Datapath figure" style="display: block; margin: 0 auto; width: 70%;">
+  <figcaption>Proposed Design</figcaption>
+</figure>
+
+## Designing Control & Datapath
 Datapath refers to all the components of the CPU which handle data flow i.e. perform some operations
 and maintain state. For this project, the datapath consists of:
 1. 8-bit program counter
@@ -352,7 +358,7 @@ For example:
  JMP 4'b1010 --> new PC = 4'b1010
 ```
 
-This means CPU has to discard the incremented `pc` value calculated in the *FETCH* state and use the 4-bit immediate value directly as the value of the `pc`. This is achieved by replacing 2to1 result mux with 4to1 mux and selecting the 4-bit immediate value to update the `pc`. 
+This means CPU has to discard the incremented `pc` value calculated in the *FETCH* state and use the 4-bit immediate value directly as the value of the `pc`. This is achieved by replacing 2to1 result mux with 4to1 mux and selecting the 4-bit immediate value to update the `pc` via `result_sel` control signal. 
 
 <figure style="text-align: center;">
   <img src="images/jmp.png" alt="Datapath figure" style="display: block; margin: 0 auto; width: 70%;">
@@ -668,3 +674,6 @@ stateDiagram-v2
     <th>reg_write=1<br>result_sel=01</th>
   </tr>
 </table>
+
+## Installation and Run Instructions
+Please refer [installation and testbench running instructions on Linux](https://github.com/mykhani/system-verilog-processor-design/tree/main?tab=readme-ov-file#installation-instructions-linux)
