@@ -18,6 +18,9 @@ module cpu_tb;
         end
     endtask
 
+    /* cpu step generates the desired number of clock pulses to
+     * trigger/advance the CPU state machine through desired number
+     * of cycles */
     task cpu_step(input logic [3:0] count);
         begin
             for (int i = 0; i < count; i++) begin
