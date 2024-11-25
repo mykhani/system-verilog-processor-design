@@ -14,7 +14,7 @@ The proposed design is based on datapath and control unit for a FSM based multi-
 ## Designing Control & Datapath
 Datapath refers to all the components of the CPU which handle data flow i.e. perform some operations
 and maintain state. For this project, the datapath consists of:
-1. 8-bit program counter
+1. 4-bit program counter, containing the address of instruction to load from the instruction memory.
 2. 16x8 instruction memory i.e. 16 addressable memory locations, each 8-bit wide to hold 16 8-bit CPU instructions.
 3. 16x4 data memory i.e. 16 addressable memory locations to hold 4-bit data.
 4. Register file consisting of four 4-bit registers.
